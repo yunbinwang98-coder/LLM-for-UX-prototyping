@@ -7,7 +7,7 @@
 <title>Route 21 · Music for the wait</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{font-family:Roboto,Arial,sans-serif;color:#171717;background:#f4f1eb;--accent:#e83243;--paper:#f4f1eb}
+:root{font-family:Roboto,Arial,sans-serif;color:#171717;background:#f4f1eb;--accent:#0066FF;--paper:#f4f1eb}
 *{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:4px solid var(--accent);outline-offset:5px}button:disabled{cursor:default}
 .shell{width:100%;max-width:1080px;min-height:100svh;margin:auto;padding:max(22px,env(safe-area-inset-top)) 24px max(58px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center}
 .arrival{text-align:center;width:100%;display:flex;flex-direction:column;gap:12px}.route{font-size:clamp(26px,4vw,42px);font-weight:900;letter-spacing:-.04em;color:var(--accent)}.stop{font-size:clamp(14px,2.6vw,25px);font-weight:500}.eta{font-size:clamp(38px,6vw,68px);font-weight:900;letter-spacing:-.055em;line-height:1.1}.eta small{font-size:.4em;letter-spacing:0;font-weight:500}.feed{font-size:12px;color:#777;min-height:17px}.feed[data-state=live]{color:#25754d}
@@ -21,6 +21,32 @@ main{width:100%;display:flex;justify-content:center;margin-top:8px}.disc{positio
 @keyframes spin{to{transform:rotate(360deg)}}@keyframes breathe{50%{opacity:.35}}
 @media(max-width:600px){.shell{padding:18px 16px 58px}.arrival{gap:8px}.controls{margin-top:8px;width:100%}.disc{width:100%;min-width:0}.label{gap:10px}.spindle{width:11px;height:11px}.segment-label{gap:6px}.demo{right:16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+/* Electric blue controls with bright orange selected wedges */
+:root{--electric-blue:#0066FF;--penn-blue:#011F5B;--selection-accent:#FF8A00}
+.route{color:var(--electric-blue)}
+.label{position:absolute;left:28.5%;top:28.5%;width:43%;height:43%;padding:0;display:block;background:var(--electric-blue);color:white}
+.spindle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 30% 25%,#171717,#000);box-shadow:inset 0 1px 3px #000,0 0 0 2px #ffffff30}
+.cta{position:absolute;left:10%;width:80%;transform:translateY(-50%);font-size:clamp(15px,2.9cqw,30px);line-height:1.18;color:white}
+.cta-top{top:28%}.cta-bottom{top:72%}
+.segment,.segment:nth-child(even),.segment:hover,.segment:focus-visible,.segment[aria-pressed=true],.segment[aria-pressed=true]:focus-visible{background:#f8f8f8;color:var(--electric-blue)}
+.segment[aria-pressed=true],.segment[aria-pressed=true]:focus-visible{background:var(--selection-accent);color:#000}
+.selection-outline{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:var(--selection-accent);stroke-width:.6;opacity:0;pointer-events:none}
+.segment[aria-pressed=true] .selection-outline{opacity:1}
+.segment:focus-visible .segment-label{outline:3px solid currentColor;outline-offset:8px;border-radius:6px}
+.volume{--level:60%;height:48px;padding:0;border-radius:0;background:transparent;gap:16px;box-shadow:none}
+.volume .mute{width:48px;height:48px;flex:none;background:transparent;color:var(--electric-blue)}
+.volume .mute[aria-pressed=true]{background:transparent;color:#747d8e}
+.volume .mute:focus-visible{outline-color:var(--penn-blue);outline-offset:3px}
+.volume-track{flex:1;position:relative;height:44px;min-width:0;display:flex;align-items:center}
+.volume-track:before{content:"";position:absolute;left:0;right:0;height:10px;border-radius:8px;background:linear-gradient(to right,var(--electric-blue) 0 var(--level),#d4d8df var(--level) 100%);box-shadow:inset 0 1px 2px #00000010;pointer-events:none}
+.volume input{appearance:none;-webkit-appearance:none;position:relative;margin:0;width:100%;height:44px;background:transparent;border-radius:24px;cursor:pointer}
+.volume input::-webkit-slider-runnable-track{height:10px;border-radius:8px;background:transparent}
+.volume input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-6px;border-radius:50%;background:var(--electric-blue);border:0;box-shadow:0 2px 5px #0066ff30}
+.volume input::-moz-range-track{height:10px;border-radius:8px;background:transparent}
+.volume input::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--electric-blue);border:0;box-shadow:0 2px 5px #0066ff30}
+.volume input:focus-visible{outline:2px solid var(--penn-blue);outline-offset:3px}
+.volume output{color:var(--electric-blue);flex:none}
+@media(max-width:600px){.volume{gap:10px}.volume output{width:42px;font-size:13px}}
 </style>
 </head>
 <body>
@@ -34,7 +60,7 @@ main{width:100%;display:flex;justify-content:center;margin-top:8px}.disc{positio
 <div class="controls" id="controls">
 <div class="volume" id="volumeControls">
 <button class="mute" id="muteButton" type="button" aria-label="Mute music" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9Z"/><path id="speakerWaves" d="M17 8a6 6 0 0 1 0 8M20 5a10 10 0 0 1 0 14"/></svg></button>
-<label class="hidden" for="volumeSlider">Music volume</label><input id="volumeSlider" aria-label="Music volume" type="range" min="0" max="100" value="60"><output id="volumeValue" for="volumeSlider">60%</output>
+<label class="hidden" for="volumeSlider">Music volume</label><span class="volume-track"><input id="volumeSlider" aria-label="Music volume" type="range" min="0" max="100" value="60"></span><output id="volumeValue" for="volumeSlider">60%</output>
 </div>
 <div id="promptControls" class="hidden"><button type="button" class="back" id="backButton">← Back</button><h1 class="instruction" id="instruction">Choose your mood</h1></div>
 </div>
@@ -43,7 +69,7 @@ main{width:100%;display:flex;justify-content:center;margin-top:8px}.disc{positio
 <div class="disc" id="recordWrap" data-view="vinyl">
 <div class="record-view" id="recordView">
 <div class="vinyl-platter"><div class="record"></div><canvas id="timerSurface" class="timer-surface" data-live="false" aria-hidden="true"></canvas></div>
-<button class="record-action" id="openPrompt" aria-label="Tap to add your mood to the music" aria-expanded="false" type="button"><span class="label"><span class="spindle" aria-hidden="true"></span><span class="cta">Tap to add your mood to the music</span></span></button>
+<button class="record-action" id="openPrompt" aria-label="Tap to add your mood to the music" aria-expanded="false" type="button"><span class="label"><span class="cta cta-top">Tap to add your mood</span><span class="spindle" aria-hidden="true"></span><span class="cta cta-bottom">to the music</span></span></button>
 </div>
 <div class="wheel" id="wheel" role="group" aria-labelledby="instruction" inert>
 <div id="segments"></div><div class="hub"><button class="hub-action" id="hubAction" disabled type="button">Continue</button></div>
@@ -108,7 +134,7 @@ function renderWheel(){
   for(let j=0;j<=30;j++)polygon.push(point(a+(b-a)*j/30,49.5));
   for(let j=30;j>=0;j--)polygon.push(point(a+(b-a)*j/30,22.5));
   const button=document.createElement('button');button.type='button';button.className='segment';button.style.clipPath='polygon('+polygon.map(p=>p.join('% ')+'%').join(',')+')';button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String((promptStep==='mood'?selectedMood:selectedSound)===key));
-  const location=point((a+b)/2,36);button.innerHTML='<span class="segment-label" style="left:'+location[0]+'%;top:'+location[1]+'%">'+svgIcon(icon)+'<span>'+label+'</span></span>';
+  const location=point((a+b)/2,36);button.innerHTML='<svg class="selection-outline" viewBox="0 0 100 100" aria-hidden="true"><polygon points="'+polygon.map(p=>p.join(',')).join(' ')+'"/></svg><span class="segment-label" style="left:'+location[0]+'%;top:'+location[1]+'%">'+svgIcon(icon)+'<span>'+label+'</span></span>';
   button.addEventListener('click',()=>{if(promptStep==='mood')selectedMood=key;else selectedSound=selectedSound===key?null:key;renderWheel();$('segments').children[i].focus()});
   $('segments').append(button);
  });
@@ -122,6 +148,7 @@ $('hubAction').addEventListener('click',()=>{if(promptStep==='mood'){if(!selecte
 $('openPrompt').addEventListener('click',openPanel);
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('recordWrap').dataset.view==='prompt')closePanel()});
 function syncVolume(){
+ $('volumeControls').style.setProperty('--level',Math.round(volume*100)+'%');
  $('volumeSlider').value=Math.round(volume*100);$('volumeValue').textContent=Math.round(volume*100)+'%';$('muteButton').setAttribute('aria-pressed',String(volume===0));$('muteButton').setAttribute('aria-label',volume===0?'Unmute music':'Mute music');$('speakerWaves').setAttribute('d',volume===0?'m17 9 5 6m0-6-5 6':'M17 8a6 6 0 0 1 0 8M20 5a10 10 0 0 1 0 14');if(generatedAudio)generatedAudio.volume=volume;if(masterGain&&audioContext)masterGain.gain.setTargetAtTime(volume*.14,audioContext.currentTime,.05);
 }
 function stopDemoAudio(){oscillators.forEach(osc=>osc.stop());oscillators=[];if(audioContext)audioContext.close();audioContext=null;masterGain=null}
