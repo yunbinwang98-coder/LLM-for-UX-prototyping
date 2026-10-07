@@ -1,6 +1,8 @@
 # Route 21 vinyl prototype
 
-The arrival timer uses SEPTA GTFS Realtime Trip Updates for Route 21 westbound at Walnut St & 34th St (stop 21360). Every three rider contributions are sent to a server-side music endpoint, which asks ElevenLabs Music to compose a 30-second instrumental passage from the aggregated mood and texture choices. The API key never goes to the browser. The local Web Audio demo remains available if generation is not configured or fails.
+The portrait iPad interface shows SEPTA GTFS Realtime arrivals for Route 21 westbound at Walnut St & 34th St (stop 21360). Tap the vinyl to choose a mood and optional sound texture using two radial wheels. Each submission requests a 30-second instrumental composition from ElevenLabs Music, weighted by all rider choices in the current bus interval. Choices submitted during generation are combined into one follow-up request. Existing music keeps playing until replacement audio is loaded; failed or expired updates do not interrupt it. The API key never goes to the browser.
+
+The volume slider controls generated music and the local demo; tapping the speaker toggles mute and restores the previous level. Audio begins after a rider interacts with the vinyl or volume controls, as required by browser playback policies. The timer begins at the first live ETA, including estimates longer than ten minutes, and smoothly follows revisions. Trip identifiers prevent a revised estimate from resetting the mood tally. The tally resets when the ETA reaches zero or the next trip becomes the earliest prediction; these are arrival proxies, not confirmation that a bus physically stopped. The one-minute demo uses a simulated interval, then returns to the live feed. Rider state is held in the kiosk browser and is not shared between separate devices or retained after refresh.
 
 ## Run locally
 
